@@ -134,7 +134,7 @@ fn void FileOpenDialog.extractFileNames(FileOpenDialog* this, Char16* buffer, in
     // Since the elements are separated with null chars, we can extract them.
     @pool() {
         Char16[] wDir = buffer[:startPos - 1];
-        String dirPath = string::from_utf16(mem, wDir)!!;
+        String dirPath = string::tfrom_utf16(wDir)!!;
         int offset = startPos;
 
         for (int i = startPos; i <NEW_MAX_PATH; i++) {
@@ -142,7 +142,7 @@ fn void FileOpenDialog.extractFileNames(FileOpenDialog* this, Char16* buffer, in
             if (wchar == '\u0000') {
                 Char16[] slice = buffer[offset..i];
                 offset = i + 1;
-                String fname = string::from_utf16(mem, slice)!!;
+                String fname = string::tfrom_utf16(slice)!!;
                 String fullPath = string::format(mem, "%s\\%s", dirPath, fname);
                 this.fileNames.push(fullPath);
                 if (buffer[offset] == '\u0000') break;
